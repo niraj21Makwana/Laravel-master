@@ -50,7 +50,20 @@ class PrizesController extends Controller
      */
     public function create()
     {
-        return view('prizes.create');
+        $totalProbability = Prize::sum('probability');
+        if ($totalProbability == 100) {
+            return view('prizes.create',[
+                'totalProbability' => $totalProbability,
+                'remainingProbability' => '0',
+            ]);
+        }else{
+            $remainingProbability = 100 - $totalProbability;
+            return view('prizes.create',[
+                'totalProbability' => $totalProbability,
+                'remainingProbability' => $remainingProbability,
+            ]);
+        }
+        
     }
 
     /**
